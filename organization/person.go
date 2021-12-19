@@ -10,16 +10,22 @@ type Identifiable interface {
 	ID() string
 }
 
+type Name struct {
+	first string
+	last string
+}
+
 type Person struct {
-	firstName string
-	lastName string
+	Name
 	twitterHandle TwitterHandle
 }
 
 func NewPerson (FirstName, LastName string) Person {
 	return Person{
-		firstName: FirstName,
-		lastName: LastName,
+		Name: Name{
+			first: FirstName,
+			last: LastName,
+		},
 	}
 }
 
@@ -43,8 +49,8 @@ func (p *Person) TwitterHandle() TwitterHandle {
 	return p.twitterHandle
 }
 
-func (p *Person) Fullname() string {
-	return p.firstName + p.lastName
+func (n *Name) Fullname() string {
+	return n.first + n.last
 }
 
 func (p *Person) ID() string {
