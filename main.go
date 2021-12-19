@@ -18,5 +18,5 @@ func main() {
 		fmt.Println(err)
 	}
 
-	fmt.Println(p.TwitterHandle())
+	fmt.Println(p.TwitterHandle().RedirectURL())
 }

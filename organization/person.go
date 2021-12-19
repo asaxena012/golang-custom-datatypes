@@ -2,6 +2,7 @@ package organization
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -12,7 +13,7 @@ type Identifiable interface {
 type Person struct {
 	firstName string
 	lastName string
-	twitterHandle string
+	twitterHandle TwitterHandle
 }
 
 func NewPerson (FirstName, LastName string) Person {
@@ -22,8 +23,15 @@ func NewPerson (FirstName, LastName string) Person {
 	}
 }
 
-func (p *Person) SetTwitterHandle(handle string) error {
-	if(!strings.HasPrefix(handle, "@")) {
+type TwitterHandle string
+
+func (th TwitterHandle) RedirectURL() string {
+	cleanHandle := strings.TrimPrefix(string(th), "@")
+	return fmt.Sprintf("https://www.twitter.com/%s", cleanHandle)
+}
+
+func (p *Person) SetTwitterHandle(handle TwitterHandle) error {
+	if(!strings.HasPrefix(string(handle), "@")) {
 		return errors.New("twitter handle must start with an @ character")
 	}
 
@@ -31,7 +39,7 @@ func (p *Person) SetTwitterHandle(handle string) error {
 	return nil
 }
 
-func (p *Person) TwitterHandle() string {
+func (p *Person) TwitterHandle() TwitterHandle {
 	return p.twitterHandle
 }
 
